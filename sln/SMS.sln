@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37111.16 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementSystem.Api", "SMS\StudentManagementSystem.Api.csproj", "{52ECCCC6-26F2-449D-87A9-D0EC52415B06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{11593DAC-1DED-46C2-AEDA-BFB3CB735004} = {11593DAC-1DED-46C2-AEDA-BFB3CB735004}
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7} = {9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementSystem.Service", "SMS.Service\StudentManagementSystem.Service.csproj", "{11593DAC-1DED-46C2-AEDA-BFB3CB735004}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C8354A2-7CBE-4816-98DD-18532177938A} = {5C8354A2-7CBE-4816-98DD-18532177938A}
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7} = {9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementSystem.Repository", "SMS.Repository\StudentManagementSystem.Repository.csproj", "{5C8354A2-7CBE-4816-98DD-18532177938A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2} = {3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2}
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7} = {9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementSystem.Domain", "SMS.Domain\StudentManagementSystem.Domain.csproj", "{3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementSystem.Contracts", "StudentManagementSystem.Contracts\StudentManagementSystem.Contracts.csproj", "{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52ECCCC6-26F2-449D-87A9-D0EC52415B06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52ECCCC6-26F2-449D-87A9-D0EC52415B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52ECCCC6-26F2-449D-87A9-D0EC52415B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52ECCCC6-26F2-449D-87A9-D0EC52415B06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11593DAC-1DED-46C2-AEDA-BFB3CB735004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11593DAC-1DED-46C2-AEDA-BFB3CB735004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11593DAC-1DED-46C2-AEDA-BFB3CB735004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11593DAC-1DED-46C2-AEDA-BFB3CB735004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8354A2-7CBE-4816-98DD-18532177938A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8354A2-7CBE-4816-98DD-18532177938A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8354A2-7CBE-4816-98DD-18532177938A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8354A2-7CBE-4816-98DD-18532177938A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB9A4FB-B7CD-4464-B99C-1872B6AC2EB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E8C7E54-D176-4CA9-9F75-E3B2CBB866B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1487A9D0-4928-4049-890D-142921D12FDE}
+	EndGlobalSection
+EndGlobal
