@@ -8,7 +8,7 @@ namespace StudentManagementSystem.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class StudentController : ControllerBase
 {
     private readonly IStudentService _service;
@@ -18,7 +18,6 @@ public class StudentController : ControllerBase
         _service = service;
     }
 
-    // GET: api/student
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -26,7 +25,6 @@ public class StudentController : ControllerBase
         return Ok(students);
     }
 
-    // GET: api/student/5
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -38,7 +36,6 @@ public class StudentController : ControllerBase
         return Ok(student);
     }
 
-    // POST: api/student
     [HttpPost]
     public async Task<IActionResult> Create(CreateStudentRequest request)
     {
@@ -46,7 +43,6 @@ public class StudentController : ControllerBase
         return Ok(result);
     }
 
-    // PUT: api/student
     [HttpPut]
     public async Task<IActionResult> Update(UpdateStudentRequest request)
     {
@@ -58,7 +54,6 @@ public class StudentController : ControllerBase
         return Ok("Student updated successfully");
     }
 
-    // DELETE: api/student/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

@@ -6,4 +6,5 @@ namespace StudentManagementSystem.Service.Interfaces;
 public interface IAuthService
 {
     Task<LoginResponse> LoginAsync(LoginRequest request);
+    Task RegisterAsync(RegisterUserRequestDto request);
 }

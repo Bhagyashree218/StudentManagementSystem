@@ -10,37 +10,39 @@ The project follows a clean layered architecture (Controller, Service, Repositor
 
 ## 🚀 Features
 
-* Get all students
-* Add new student
-* Update student
-* Delete student
-* JWT Authentication
-* Global Exception Handling Middleware
-* Logging (Serilog / Built-in)
-* Swagger API Documentation
+* ✅ Get all students
+* ✅ Get student by ID
+* ✅ Add new student
+* ✅ Update student
+* ✅ Delete student (Soft Delete)
+* ✅ JWT Authentication (Login/Register)
+* ✅ Role-based Authorization (Admin)
+* ✅ Global Exception Handling (Middleware)
+* ✅ Logging (Built-in ILogger)
+* ✅ Swagger API Documentation
 
 ---
 
-## 🏗️ Architecture
+## 🏗 Architecture
 
-* Controller Layer
-* Service Layer
-* Repository Layer
-* DTO-based communication
+The project follows a layered architecture:
+
+* Controller Layer → Handles HTTP requests
+* Service Layer → Business logic
+* Repository Layer → Database access
+* Domain Layer → Entities
+* Contracts Layer → DTOs
 
 ---
 
-## 🗄️ Database
+## 🛠 Technologies Used
 
+* ASP.NET Core Web API
+* Entity Framework Core
 * SQL Server
-* Table: Students
-
-  * Id
-  * Name
-  * Email
-  * Age
-  * Course
-  * CreatedDate
+* JWT Authentication
+* BCrypt (Password Hashing)
+* Swagger (Swashbuckle)
 
 ---
 
@@ -49,49 +51,64 @@ The project follows a clean layered architecture (Controller, Service, Repositor
 1. Clone the repository
 
 ```
-git clone https://github.com/Bhagyashree218/StudentManagementSystem.git
+git clone <your-repo-link>
 ```
 
-2. Open in Visual Studio
+2. Update database connection string in `appsettings.json`
 
-3. Update Connection String
-
-Edit `appsettings.json`:
+3. Run migrations
 
 ```
-"ConnectionStrings": {
-  "DefaultConnection": "Server=.;Database=StudentDb;Trusted_Connection=True;"
-}
-```
-
-4. Apply Migrations
-
-```
+Add-Migration InitialCreate
 Update-Database
 ```
 
-5. Run the Project
-
-```
-dotnet run
-```
-
-6. Open Swagger
-
-```
-https://localhost:<port>/swagger
-```
+4. Run the application
 
 ---
 
-## 🔐 Authentication
+## 🔐 Authentication Flow
 
-* JWT-based authentication implemented
-* Secure endpoints using token
+1. Register user
+   `POST /api/auth/register`
+
+2. Login
+   `POST /api/auth/login`
+
+3. Copy JWT token
+
+4. In Swagger → Click **Authorize**
+   👉 Paste ONLY token (no Bearer)
+
+5. Access secured endpoints
 
 ---
 
+## 📬 API Endpoints
 
-## 📎 Submission
+### Auth
 
-GitHub Repo: https://github.com/Bhagyashree218/StudentManagementSystem
+* POST `/api/auth/register`
+* POST `/api/auth/login`
+
+### Student (Protected)
+
+* GET `/api/student`
+* GET `/api/student/{id}`
+* POST `/api/student`
+* PUT `/api/student`
+* DELETE `/api/student/{id}`
+
+---
+
+## 📌 Notes
+
+* All student APIs are protected using JWT
+* Only Admin role can access endpoints
+* Passwords are securely hashed using BCrypt
+
+---
+
+## 👩‍💻 Author
+
+Bhagyashree

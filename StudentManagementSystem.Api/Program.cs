@@ -14,19 +14,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add services to the container.
-
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-//builder.Services.AddScoped<StudentManagementSystem.Service.Interfaces.IAuthService, StudentManagementSystem.Service.Services.AuthService>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = builder.Configuration["Jwt:Key"];
+var issuer = builder.Configuration["Jwt:Issuer"];
+var audience = builder.Configuration["Jwt:Audience"];
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,14 +40,11 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
 
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
+        ValidIssuer = issuer,
+        ValidAudience = audience,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(jwtSettings["Key"]!)),
-        //ValidIssuer = builder.Configuration["Jwt:Issuer"], // ✅ FIX
-        //ValidAudience = builder.Configuration["Jwt:Audience"], // ✅ FIX
-        //IssuerSigningKey = new SymmetricSecurityKey(
-        //    Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)), // ✅ FIX
+            Encoding.UTF8.GetBytes(key!)),
+
         ClockSkew = TimeSpan.Zero
     };
 });
@@ -62,7 +58,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter: Bearer {your token}"
+        Description = "Enter your JWT token"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -81,10 +77,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -93,7 +87,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseMiddleware<StudentManagementSystem.Api.Middleware.ExceptionMiddleware>();
+
+app.UseAuthentication();   
 app.UseAuthorization();
 
 app.MapControllers();

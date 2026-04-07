@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BCrypt.Net;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using StudentManagementSystem.Contracts.Request;
 using StudentManagementSystem.Contracts.Response;
+using StudentManagementSystem.Domain.Entities;
+using StudentManagementSystem.Repository.Interfaces;
 using StudentManagementSystem.Service.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,21 +16,61 @@ namespace StudentManagementSystem.Service.Services;
 public class AuthService : IAuthService
 {
     private readonly IConfiguration _config;
+    private readonly IUserRepository _userRepository;
+    private readonly ILogger<AuthService> _logger;
 
-    public AuthService(IConfiguration config)
+    public AuthService(
+        IConfiguration config,
+        IUserRepository userRepository,
+        ILogger<AuthService> logger)
     {
         _config = config;
+        _userRepository = userRepository;
+        _logger = logger;
     }
 
-    public Task<LoginResponse> LoginAsync(LoginRequest request)
+    public async Task RegisterAsync(RegisterUserRequestDto request)
     {
-        // 🔥 Hardcoded user (enough for assignment)
-        if (request.Username != "admin" || request.Password != "admin")
-            throw new Exception("Invalid credentials");
+        _logger.LogInformation("Register attempt for username: {Username}", request.Username);
+
+        var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
+
+        if (existingUser != null)
+        {
+            _logger.LogWarning("User already exists: {Username}", request.Username);
+            throw new InvalidOperationException("User already exists");
+        }
+
+        var user = new User
+        {
+            Username = request.Username,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            Role = "Admin"
+        };
+
+        await _userRepository.AddAsync(user);
+
+        _logger.LogInformation("User registered successfully: {Username}", request.Username);
+    }
+
+    public async Task<LoginResponse> LoginAsync(LoginRequest request)
+    {
+        _logger.LogInformation("Login attempt for username: {Username}", request.Username);
+
+        var user = await _userRepository.GetByUsernameAsync(request.Username);
+
+        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        {
+            _logger.LogWarning("Invalid login attempt for username: {Username}", request.Username);
+            throw new UnauthorizedAccessException("Invalid credentials");
+        }
+
+        _logger.LogInformation("Login successful for username: {Username}", request.Username);
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, request.Username)
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role)
         };
 
         var key = new SymmetricSecurityKey(
@@ -43,11 +87,9 @@ public class AuthService : IAuthService
             signingCredentials: creds
         );
 
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return Task.FromResult(new LoginResponse
+        return new LoginResponse
         {
-            Token = jwt
-        });
+            Token = new JwtSecurityTokenHandler().WriteToken(token)
+        };
     }
 }

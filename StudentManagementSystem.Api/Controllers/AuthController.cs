@@ -15,6 +15,13 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterUserRequestDto request)
+    {
+        await _authService.RegisterAsync(request);
+        return Ok("User registered successfully");
+    }
+
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
